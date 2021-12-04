@@ -106,7 +106,6 @@ const FormMonitorias = ({
           <input
             type="submit"
             className="btn-submit"
-            value="Agregar monitorias"
             value={monitoria.id ? "Actualizar monitoria" : "Agregar monitoria"}
           />
         </form>
