@@ -12,7 +12,7 @@ const Card = ({ title, type }) => {
           <div  className="card-content ">
             <div className="card-interior">
               <FontAwesomeIcon
-                className="display-1"
+                className="display-1 mb-4"
                 icon={type === "monitor" ? faLaptop : type === "monitorias" ? faHandsHelping : null}
               />
               <h1 className="display-4">{title}</h1>

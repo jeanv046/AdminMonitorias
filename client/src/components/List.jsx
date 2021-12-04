@@ -1,91 +1,55 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faEdit,
-    faTrashAlt,
-  } from "@fortawesome/free-solid-svg-icons";
-const List = () => {
+import Monitor from "./Monitor";
+import Monitoria from "./Monitoria";
+
+const List = ({
+  monitores,
+  setMonitor,
+  borrarMonitor,
+  monitorias,
+  setMonitoria,
+  borrarMonitorias,
+  type
+}) => {
   return (
     <>
       <div className="w-100 p-3 bgr-blueligth content-list">
-        <div className="list-int w-100 bg-white">
-          <div className="list-grid">
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-          </div>
-          <div className="icon-form">
-            <FontAwesomeIcon color="#5069DE" icon={faEdit} />
-            <FontAwesomeIcon color="#DE5050" icon={faTrashAlt} />
-          </div>
-        </div>
-        <div className="list-int w-100 bg-white">
-          <div className="list-grid">
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-          </div>
-          <div className="icon-form">
-            <FontAwesomeIcon color="#5069DE" icon={faEdit} />
-            <FontAwesomeIcon color="#DE5050" icon={faTrashAlt} />
-          </div>
-        </div>
-        <div className="list-int w-100 bg-white">
-          <div className="list-grid">
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-            <p className="p-color">
-              Hola: <span className="span-color">Como estas?</span>{" "}
-            </p>
-          </div>
-          <div className="icon-form">
-            <FontAwesomeIcon color="#5069DE" icon={faEdit} />
-            <FontAwesomeIcon color="#DE5050" icon={faTrashAlt} />
-          </div>
-        </div>
+        {monitores && monitores.length > 0 ? (
+          <>
+            {monitores.map((monitor) => (
+              <Monitor
+                key={monitor.id}
+                monitor={monitor}
+                setMonitor={setMonitor}
+                borrarMonitor={borrarMonitor}
+              />
+            ))}
+          </>
+        ) : monitorias && monitorias.length > 0 ? (
+          <>
+            {monitorias.map((monitoria) => (
+              <Monitoria
+                key={monitoria.id}
+                monitoria={monitoria}
+                setMonitoria={setMonitoria}
+                borrarMonitorias={borrarMonitorias}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            <div className="d-flex justify-content-center align-items-center list-int w-100 bg-white">
+              <p className="p-target my-4">
+                {type === "monitor"
+                  ? "Comienza agregando monitores y "
+                  : type === "monitorias"
+                  ? "Comienza agregando monitorias y "
+                  : null}
+                <span className="span-target">aparecerán en este lugar</span>
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

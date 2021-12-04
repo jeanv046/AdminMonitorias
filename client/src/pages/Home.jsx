@@ -29,7 +29,7 @@ const Home = () => {
         >
           <div className="">
             <Link className="text-dnone" to="/monitor">
-              <Card title={"Monitor"} type={"monitor"} />
+              <Card title={"Monitores"} type={"monitor"} />
             </Link>
           </div>
           <div>
