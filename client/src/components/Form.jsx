@@ -10,6 +10,7 @@ import FormMonitor from "./FormMonitor";
 import List from "./List";
 import FormMonitorias from "./FormMonitorias";
 import { listarMonitor, eliminarMonitor } from "../utils/monitores";
+import {listarMonitorias} from "../utils/monitorias";
 
 const Form = ({ title, type }) => {
   const [monitores, setMonitores] = useState([]);
@@ -17,10 +18,11 @@ const Form = ({ title, type }) => {
   const [monitorias, setMonitorias] = useState([]);
   const [monitoria, setMonitoria] = useState({});
   const [actualizarMonitores, setActualizarMonitores] = useState(false);
-  const [id, setId] = useState('')
+  const [id, setId] = useState("");
 
   useEffect(() => {
     listarMonitor(setMonitores);
+    listarMonitorias(setMonitorias);
   }, []);
 
   const borrarMonitor = (id) => {
@@ -31,7 +33,6 @@ const Form = ({ title, type }) => {
   const borrarMonitorias = (id) => {
     setMonitorias(monitorias.filter((monitoria) => monitoria.id !== id));
   };
-
   return (
     <>
       <div className="content-carousel">
@@ -67,19 +68,22 @@ const Form = ({ title, type }) => {
 
             {type === "monitor" ? (
               <FormMonitor
+                id={id}
+                dataMonitor={monitor}
                 monitores={monitores}
                 setMonitor={setMonitor}
-                id={id}
                 setMonitores={setMonitores}
                 actualizarMonitores={actualizarMonitores}
                 setActualizarMonitores={setActualizarMonitores}
               />
             ) : type === "monitorias" ? (
               <FormMonitorias
+                dataMonitor={monitor}
                 monitorias={monitorias}
                 setMonitorias={setMonitorias}
                 monitoria={monitoria}
                 setMonitoria={setMonitoria}
+                monitores={monitores}
               />
             ) : null}
 
@@ -88,12 +92,15 @@ const Form = ({ title, type }) => {
                 type={"monitor"}
                 setId={setId}
                 monitores={monitores}
+                setMonitor={setMonitor}
+                setMonitores={setMonitores}
                 borrarMonitor={borrarMonitor}
               />
             ) : type === "monitorias" ? (
               <List
                 type={"monitorias"}
                 monitorias={monitorias}
+                setMonitores={setMonitores}
                 setMonitoria={setMonitoria}
                 borrarMonitorias={borrarMonitorias}
               />

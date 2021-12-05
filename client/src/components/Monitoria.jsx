@@ -1,17 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
+import { eliminarMonitoria } from "../utils/monitorias";
 
-function Monitoria({ monitoria, setMonitoria, borrarMonitorias }) {
-  const { materia, select, date, salon, id } = monitoria;
+function Monitoria({ monitoria, setMonitoria, setMonitorias }) {
+  const { materia, nombre_monitor, fecha, salon, id } = monitoria;
 
   const handleDelete = () => {
     //Validar eliminar
-    const confirmar = window.confirm("Are you sure about that?");
-    if (confirmar) {
-      borrarMonitorias(id);
+    if (id) {
+      setMonitoria({
+        materia: "",
+        monitores_id: "",
+        fecha: "",
+        salon: "",
+      });
+      eliminarMonitoria(id, setMonitorias);
     }
   };
+  const edit = () => {
+    setMonitoria(monitoria);
+  };
+
   return (
     <>
       <div className="list-int w-100 bg-white ">
@@ -20,20 +31,23 @@ function Monitoria({ monitoria, setMonitoria, borrarMonitorias }) {
             Materia: <span className="span-color">{materia}</span>
           </p>
           <p className="p-color">
-            Profesor: <span className="span-color">{select}</span>
+            Profesor: <span className="span-color">{nombre_monitor}</span>
           </p>
           <p className="p-color">
-            date: <span className="span-color">{date}</span>
+            Fecha:{" "}
+            <span className="span-color">
+              {moment(fecha).format("MMMM DD YYYY")}
+            </span>
           </p>
           <p className="p-color">
             salon:
             <span className="span-color">{salon}</span>
           </p>
         </div>
-        <div className="icon-form">
+        <div className="icon-form cursor-pointer">
           <FontAwesomeIcon
             color="#5069DE"
-            onClick={() => setMonitoria(monitoria)}
+            onClick={() => edit()}
             icon={faEdit}
           />
           <FontAwesomeIcon

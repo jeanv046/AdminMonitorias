@@ -4,9 +4,9 @@ const ruta = express.Router();
 
 const monitoriaController = require("../controllers/monitoriasController");
 
-ruta.post("/crearMonitoria", monitoriaController.crearMonitoria);
-ruta.post("/eliminarMonitoria", monitoriaController.eliminarMonitoria);
-ruta.post("/editarMonitoria", monitoriaController.editarMonitoria);
-ruta.get("/listarMonitoria", monitoriaController.listarMonitoria);
+ruta.post("/monitoria", monitoriaController.crearMonitoria);
+ruta.delete("/monitoria", monitoriaController.eliminarMonitoria);
+ruta.patch("/monitoria", monitoriaController.editarMonitoria);
+ruta.get("/monitoria", monitoriaController.listarMonitoria);
 
 module.exports = ruta;

@@ -8,7 +8,7 @@ const db = mysql.createConnection({
 });
 
 exports.listarMonitoria = (req, res) => {
-  db.query("SELECT * FROM monitorias WHERE estado=1;", (err, result) => {
+  db.query("SELECT m.*,CONCAT(mo.nombres,' ',mo.apellidos) AS nombre_monitor FROM monitorias m INNER JOIN monitores mo ON mo.id=m.monitores_id WHERE m.estado=1;", (err, result) => {
     {
       result ? res.status(200).send(result) : res.status(400).send(err);
     }

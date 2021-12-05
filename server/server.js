@@ -37,4 +37,4 @@ app.listen(PORT, () => {
 });
 
 app.use("/monitores", require("./routes/monitores"))
-app.use("/monitorias", require("./routes/monitorias"))
+app.use("/", require("./routes/monitorias"))

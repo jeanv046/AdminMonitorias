@@ -52,13 +52,15 @@ export const obtenerMonitor = async (id, setMonitor) => {
 export const listarMonitor = async (setMonitores) => {
   await axios
     .get(ruta + "listarMonitor")
-    .then((response) => setMonitores(response.data))
+    .then((response) => {
+      setMonitores(response.data);
+    })
     .catch((e) => {
       console.log(e);
     });
 };
 
-export const eliminarMonitor = async (id) => {
+export const eliminarMonitor = async (id, setMonitores) => {
   return await axios
     .post(ruta + "eliminarMonitor", { id: id })
     .then((response) => {
@@ -68,31 +70,30 @@ export const eliminarMonitor = async (id) => {
         showConfirmButton: false,
         timer: 1500,
       });
+      listarMonitor(setMonitores);
     });
 };
 
 export const editarMonitor = async (value, setMonitores, setMonitor) => {
-  await axios.post(ruta + "editarMonitor", value).then((response) => {
-    return axios
-      .get(ruta + "listarMonitor")
-      .then((response) => {
-        setMonitores(response.data);
-        Swal.fire({
-          icon: "success",
-          title: "Edito correctamente el monitor.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      })
-      .catch((e) => {
-        if (e.response.status === 400) {
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: e.response.data.message,
-            confirmButtonText: "Aceptar",
-          });
-        }
+  await axios
+    .post(ruta + "editarMonitor", value)
+    .then((response) => {
+      Swal.fire({
+        icon: "success",
+        title: "Edito correctamente el monitor.",
+        showConfirmButton: false,
+        timer: 1500,
       });
-  });
+      listarMonitor(setMonitores);
+    })
+    .catch((e) => {
+      if (e.response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: e.response.data.message,
+          confirmButtonText: "Aceptar",
+        });
+      }
+    });
 };

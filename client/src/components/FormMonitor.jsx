@@ -2,18 +2,7 @@ import React, { useState, useEffect } from "react";
 import Error from "./Error";
 import { agregarMonitor, editarMonitor } from "../utils/monitores";
 
-const FormMonitor = ({
-  setMonitores,
-  id,
-  monitores,
-
-  /* actualizarMonitores,  setActualizarMonitores, */
-}) => {
-  useEffect(() => {
-    console.log(monitores);
-    filtrar(id);
-  }, [id]);
-
+const FormMonitor = ({ setMonitores, id, monitores, dataMonitor }) => {
   const [monitor, setMonitor] = useState({
     nombres: "",
     apellidos: "",
@@ -23,21 +12,15 @@ const FormMonitor = ({
     correo: "",
   });
 
+  useEffect(() => {
+    if (dataMonitor) setMonitor(dataMonitor);
+  }, [dataMonitor]);
+
   const [error, setError] = useState(false);
 
   const { nombres, apellidos, programaAcademico, semestre, cedula, correo } =
     monitor;
-  /*  const {nombre, apellido, programaAcademico, semestre, cedula, correo} = actualizarMonitores; */
-  const filtrar = (id) => {
-    let copia = [...monitores];
-    if (copia.length > 0) {
-      copia.forEach((ele) => {
-        if (ele.id == id) {
-          setMonitor(ele);
-        }
-      });
-    }
-  };
+    
   const validarLetras = (e) => {
     const res = /^[a-zA-Z\b]+$/;
     if (e.target.value === "" || res.test(e.target.value)) {
@@ -74,7 +57,6 @@ const FormMonitor = ({
     e.preventDefault();
     //validaciones
     if (
-      /* [nombres, apellidos, programaAcademico, semestre, cedula, correo].includes("") */
       cedula !== "" &&
       nombres !== "" &&
       apellidos !== "" &&
@@ -85,7 +67,6 @@ const FormMonitor = ({
       setError(true);
       if (monitor.id) {
         editarMonitor(monitor, setMonitores);
-        
       } else {
         agregarMonitor(monitor, setMonitores, setMonitor);
       }
@@ -100,7 +81,6 @@ const FormMonitor = ({
       correo: "",
     });
     return;
-    
   };
 
   return (

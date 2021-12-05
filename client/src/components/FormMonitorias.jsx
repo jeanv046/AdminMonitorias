@@ -1,67 +1,77 @@
 import React, { useState, useEffect } from "react";
 import Error from "./Error";
+import { agregarMonitoria, editarMonitoria } from "../utils/monitorias";
 
 const FormMonitorias = ({
   monitorias,
   setMonitorias,
-  monitoria,
-  setMonitoria,
+  monitores,
+  dataMonitor,
 }) => {
-  const [materia, setMateria] = useState("");
-  const [select, setSelect] = useState("");
-  const [date, setDate] = useState("");
-  const [salon, setSalon] = useState("");
+  const [monitoria, setMonitoria] = useState({
+    materia: "",
+    monitores_id: "",
+    fecha: "",
+    salon: "",
+  });
+
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    if (Object.keys(monitoria).length > 0) {
-      setMateria(monitoria.materia)
-      setSelect(monitoria.select)
-      setDate(monitoria.date)
-      setSalon(monitoria.salon)
-    }
-  }, [monitoria])
+  const { materia, monitores_id, fecha, salon } = monitoria;
 
-  const generateId = () => {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  const validarLetras = (e) => {
+    const res = /^[a-zA-Z\b]+$/;
+    if (e.target.value === "" || res.test(e.target.value)) {
+      setMonitoria({
+        ...monitoria,
+        [e.target.name]: e.target.value,
+      });
+
+      return;
+    }
+  };
+
+  const validarNumero = (e) => {
+    const res = /^[0-9\b]+$/;
+    if (e.target.value === "" || res.test(e.target.value)) {
+      setMonitoria({
+        ...monitoria,
+        [e.target.name]: e.target.value,
+      });
+      return;
+    }
+  };
+
+  const validarCorreo = (e) => {
+    setMonitoria({
+      ...monitoria,
+      [e.target.name]: e.target.value,
+    });
+    return;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //validaciones
-    if ([materia, select, date, salon].includes("")) {
+    if (materia !== "" && 
+    monitores_id !== "" && 
+    fecha !== "" && 
+    salon !== "") {
       setError(true);
-      return;
+      if (monitoria.id) {
+        editarMonitoria(monitoria, setMonitorias);
+      } else {
+        agregarMonitoria(monitoria, setMonitorias, setMonitoria);
+      }
     }
     setError(false);
-
-    //Crear Nuevo
-    const nuevaMonitoria = {
-      materia,
-      select,
-      date,
-      salon,
-    };
-
-    if (monitoria.id) {
-      //actualizar monitorias
-      nuevaMonitoria.id = monitoria.id;
-      const monitoriaActualizada = monitorias.map((estadoMonitoria) =>
-        estadoMonitoria.id === monitoria.id ? nuevaMonitoria : estadoMonitoria
-      );
-      setMonitorias(monitoriaActualizada);
-      setMonitoria({});
-    } else {
-      //Agregar Monitorias
-      nuevaMonitoria.id = generateId();
-      setMonitorias([...monitorias, nuevaMonitoria]);
-    }
-
-    //Reset Formulario
-    setMateria("");
-    setSelect("");
-    setDate("");
-    setSalon("");
+    setMonitoria({
+      materia: "",
+      monitores_id: "",
+      fecha: "",
+      salon: "",
+    });
+    return;
   };
 
   return (
@@ -76,28 +86,47 @@ const FormMonitorias = ({
           <div className="form-grid mb-3">
             <input
               type="text"
+              name="materia"
               placeholder="Materia"
               value={materia}
-              onChange={(e) => setMateria(e.target.value)}
+              onChange={validarLetras}
               maxLength="50"
               className="input-form"
             />
-            <select className="input-form" name="" value={select} onChange={(e)=>setSelect(e.target.value)}>
+            <select
+              className="input-form"
+              onChange={(e) =>
+                setMonitoria({ ...monitoria, monitores_id: e.target.value })
+              }
+              name="select"
+              value={monitores_id}
+            >
               <option defaultValue>Seleciona una opcion</option>
-              <option value="0">Selecion Uno</option>
-              <option value="1">Selecion Dos</option>
+              {monitores.map((monitor) => {
+                return (
+                  <option key={monitor.id} value={monitor.id}>
+                    {monitor.nombres + " " + monitor.apellidos}
+                  </option>
+                );
+              })}
             </select>
             <input
               type="date"
+              onChange={(e) =>
+                setMonitoria({ ...monitoria, fecha: e.target.value })
+              }
+              name="fecha"
+              value={fecha}
               className="input-form"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
             />
             <input
               type="text"
-              placeholder="Salón"
+              name="salon"
               value={salon}
-              onChange={(e) => setSalon(e.target.value)}
+              onChange={(e) =>
+                setMonitoria({ ...monitoria, salon: e.target.value })
+              }
+              placeholder="Salón"
               maxLength="50"
               className="input-form"
             />

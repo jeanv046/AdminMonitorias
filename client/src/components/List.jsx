@@ -1,18 +1,21 @@
 import React from "react";
 import Monitor from "./Monitor";
 import Monitoria from "./Monitoria";
+import { listarMonitor } from "../utils/monitores";
 
-const 
-List = ({
+const List = ({
   monitores,
+  monitor,
   setMonitor,
+  setMonitores,
   borrarMonitor,
   monitorias,
   setMonitoria,
   borrarMonitorias,
   type,
-  setId
+  setId,
 }) => {
+  
   return (
     <>
       <div className="w-100 p-3 bgr-blueligth content-list">
@@ -20,10 +23,11 @@ List = ({
           <>
             {monitores.map((monitor) => (
               <Monitor
+                setId={setId}
                 key={monitor.id}
                 monitor={monitor}
-                setId={setId}
                 setMonitor={setMonitor}
+                setMonitores={setMonitores}
                 borrarMonitor={borrarMonitor}
               />
             ))}
@@ -31,10 +35,13 @@ List = ({
         ) : monitorias && monitorias.length > 0 ? (
           <>
             {monitorias.map((monitoria) => (
-              <Monitoria
+               <Monitoria
                 key={monitoria.id}
+                monitor={monitor}
                 monitoria={monitoria}
+                monitores={monitores}
                 setMonitoria={setMonitoria}
+                setMonitores={setMonitores}
                 borrarMonitorias={borrarMonitorias}
               />
             ))}

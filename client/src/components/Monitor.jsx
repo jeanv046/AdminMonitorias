@@ -1,9 +1,9 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import {eliminarMonitor} from "../utils/monitores"
+import { eliminarMonitor } from "../utils/monitores";
 
-function Monitor({ monitor, setMonitor, borrarMonitor,setId }) {
+function Monitor({ monitor, setMonitor, setMonitores }) {
   const {
     nombres,
     apellidos,
@@ -12,18 +12,25 @@ function Monitor({ monitor, setMonitor, borrarMonitor,setId }) {
     cedula,
     correo,
     id,
-
   } = monitor;
 
   const handleDelete = () => {
-    //Validar eliminar
-      eliminarMonitor(id);
+    if (id) {
+      setMonitor({
+        nombres: "",
+        apellidos: "",
+        programaAcademico: "",
+        semestre: "",
+        cedula: "",
+        correo: "",
+      });
+      eliminarMonitor(id, setMonitores);
+    }
   };
 
-  const obtenerId = (id) =>{
-    setId(id)
-  }
-
+  const edit = () => {
+    setMonitor(monitor);
+  };
 
   return (
     <>
@@ -52,12 +59,12 @@ function Monitor({ monitor, setMonitor, borrarMonitor,setId }) {
         <div className="icon-form cursor-pointer">
           <FontAwesomeIcon
             color="#5069DE"
-            onClick={() => obtenerId(id)}
+            onClick={() => edit()}
             icon={faEdit}
           />
           <FontAwesomeIcon
             color="#DE5050"
-            onClick={handleDelete}
+            onClick={() => handleDelete()}
             icon={faTrashAlt}
           />
         </div>
