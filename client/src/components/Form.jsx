@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLaptop,
@@ -9,18 +9,27 @@ import { Link } from "react-router-dom";
 import FormMonitor from "./FormMonitor";
 import List from "./List";
 import FormMonitorias from "./FormMonitorias";
+import { listarMonitor, eliminarMonitor } from "../utils/monitores";
 
 const Form = ({ title, type }) => {
   const [monitores, setMonitores] = useState([]);
   const [monitor, setMonitor] = useState({});
   const [monitorias, setMonitorias] = useState([]);
   const [monitoria, setMonitoria] = useState({});
+  const [actualizarMonitores, setActualizarMonitores] = useState(false);
+  const [id, setId] = useState('')
+
+  useEffect(() => {
+    listarMonitor(setMonitores);
+  }, []);
 
   const borrarMonitor = (id) => {
-    setMonitores(monitores.filter((monitor) => monitor.id !== id));
+    const nuevoMonitor = monitores.filter((monitor) => monitor.id !== id);
+    setMonitores(nuevoMonitor);
+    eliminarMonitor(id);
   };
-  const borrarMonitorias =(id)=>{
-    setMonitorias(monitorias.filter((monitoria)=>monitoria.id !== id));
+  const borrarMonitorias = (id) => {
+    setMonitorias(monitorias.filter((monitoria) => monitoria.id !== id));
   };
 
   return (
@@ -55,30 +64,40 @@ const Form = ({ title, type }) => {
             <div className="title-monitor bgr-blueligth">
               <h1 className="m-0 px-2 py-3">{title}</h1>
             </div>
+
             {type === "monitor" ? (
-              <FormMonitor monitores={monitores} setMonitores={setMonitores} monitor={monitor} setMonitor={setMonitor} />
+              <FormMonitor
+                monitores={monitores}
+                setMonitor={setMonitor}
+                id={id}
+                setMonitores={setMonitores}
+                actualizarMonitores={actualizarMonitores}
+                setActualizarMonitores={setActualizarMonitores}
+              />
             ) : type === "monitorias" ? (
-              <FormMonitorias monitorias={monitorias} setMonitorias={setMonitorias} monitoria={monitoria} setMonitoria={setMonitoria}/>
+              <FormMonitorias
+                monitorias={monitorias}
+                setMonitorias={setMonitorias}
+                monitoria={monitoria}
+                setMonitoria={setMonitoria}
+              />
             ) : null}
-          
 
-            {type ==="monitor" ?(
+            {type === "monitor" ? (
               <List
-              type={"monitor"}
-              monitores={monitores}
-              setMonitor={setMonitor}
-              borrarMonitor={borrarMonitor}
-            />
-            ) : type === "monitorias" ?(
+                type={"monitor"}
+                setId={setId}
+                monitores={monitores}
+                borrarMonitor={borrarMonitor}
+              />
+            ) : type === "monitorias" ? (
               <List
-              type={"monitorias"}
-              monitorias={monitorias}
-              setMonitoria={setMonitoria}
-              borrarMonitorias={borrarMonitorias}
-            />
-            ): null}
-            
-
+                type={"monitorias"}
+                monitorias={monitorias}
+                setMonitoria={setMonitoria}
+                borrarMonitorias={borrarMonitorias}
+              />
+            ) : null}
           </div>
         </div>
       </div>

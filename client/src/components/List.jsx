@@ -2,14 +2,16 @@ import React from "react";
 import Monitor from "./Monitor";
 import Monitoria from "./Monitoria";
 
-const List = ({
+const 
+List = ({
   monitores,
   setMonitor,
   borrarMonitor,
   monitorias,
   setMonitoria,
   borrarMonitorias,
-  type
+  type,
+  setId
 }) => {
   return (
     <>
@@ -20,6 +22,7 @@ const List = ({
               <Monitor
                 key={monitor.id}
                 monitor={monitor}
+                setId={setId}
                 setMonitor={setMonitor}
                 borrarMonitor={borrarMonitor}
               />

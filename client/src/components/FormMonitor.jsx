@@ -1,30 +1,72 @@
 import React, { useState, useEffect } from "react";
 import Error from "./Error";
+import { agregarMonitor, editarMonitor } from "../utils/monitores";
 
-const FormMonitor = ({ monitores, setMonitores, monitor, setMonitor }) => {
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [programaAcademico, setProgramaAcademico] = useState("");
-  const [semestre, setSemestre] = useState("");
-  const [cedula, setCedula] = useState("");
-  const [correo, setCorreo] = useState("");
+const FormMonitor = ({
+  setMonitores,
+  id,
+  monitores,
+
+  /* actualizarMonitores,  setActualizarMonitores, */
+}) => {
+  useEffect(() => {
+    console.log(monitores);
+    filtrar(id);
+  }, [id]);
+
+  const [monitor, setMonitor] = useState({
+    nombres: "",
+    apellidos: "",
+    programaAcademico: "",
+    semestre: "",
+    cedula: "",
+    correo: "",
+  });
+
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    
-    if (Object.keys(monitor).length > 0) {
-      setNombre(monitor.nombre)
-      setApellido(monitor.apellido)
-      setProgramaAcademico(monitor.programaAcademico)
-      setSemestre(monitor.semestre)
-      setCedula(monitor.cedula)
-      setCorreo(monitor.correo)
+  const { nombres, apellidos, programaAcademico, semestre, cedula, correo } =
+    monitor;
+  /*  const {nombre, apellido, programaAcademico, semestre, cedula, correo} = actualizarMonitores; */
+  const filtrar = (id) => {
+    let copia = [...monitores];
+    if (copia.length > 0) {
+      copia.forEach((ele) => {
+        if (ele.id == id) {
+          setMonitor(ele);
+        }
+      });
     }
+  };
+  const validarLetras = (e) => {
+    const res = /^[a-zA-Z\b]+$/;
+    if (e.target.value === "" || res.test(e.target.value)) {
+      setMonitor({
+        ...monitor,
+        [e.target.name]: e.target.value,
+      });
 
-  }, [monitor])
+      return;
+    }
+  };
 
-  const generateId = () => {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  const validarNumero = (e) => {
+    const res = /^[0-9\b]+$/;
+    if (e.target.value === "" || res.test(e.target.value)) {
+      setMonitor({
+        ...monitor,
+        [e.target.name]: e.target.value,
+      });
+      return;
+    }
+  };
+
+  const validarCorreo = (e) => {
+    setMonitor({
+      ...monitor,
+      [e.target.name]: e.target.value,
+    });
+    return;
   };
 
   //Arrow Funtion
@@ -32,44 +74,33 @@ const FormMonitor = ({ monitores, setMonitores, monitor, setMonitor }) => {
     e.preventDefault();
     //validaciones
     if (
-      [nombre, apellido, programaAcademico, semestre, cedula, correo].includes("")
+      /* [nombres, apellidos, programaAcademico, semestre, cedula, correo].includes("") */
+      cedula !== "" &&
+      nombres !== "" &&
+      apellidos !== "" &&
+      programaAcademico !== "" &&
+      semestre !== "" &&
+      correo !== ""
     ) {
       setError(true);
-      return;
+      if (monitor.id) {
+        editarMonitor(monitor, setMonitores);
+        
+      } else {
+        agregarMonitor(monitor, setMonitores, setMonitor);
+      }
     }
     setError(false);
-
-    //Crear nuevo monitor
-    const nuevoMonitor = {
-      nombre,
-      apellido,
-      programaAcademico,
-      semestre,
-      cedula,
-      correo,
-    };
-
-    if (monitor.id) {
-      //Actualizar monitor
-      nuevoMonitor.id = monitor.id;
-      const monitorActualizado = monitores.map((estadoMonitor) =>
-        estadoMonitor.id === monitor.id ? nuevoMonitor : estadoMonitor
-      );
-      setMonitores(monitorActualizado);
-      setMonitor({});
-    } else {
-      //Agregar monitor
-      nuevoMonitor.id = generateId();
-      setMonitores([...monitores, nuevoMonitor]);
-    }
-
-    //Reset Formulario
-    setNombre("");
-    setApellido("");
-    setProgramaAcademico("");
-    setSemestre("");
-    setCedula("");
-    setCorreo("");
+    setMonitor({
+      nombres: "",
+      apellidos: "",
+      programaAcademico: "",
+      semestre: "",
+      cedula: "",
+      correo: "",
+    });
+    return;
+    
   };
 
   return (
@@ -84,50 +115,56 @@ const FormMonitor = ({ monitores, setMonitores, monitor, setMonitor }) => {
           <div className="form-grid mb-4">
             <input
               type="text"
+              name="nombres"
               placeholder="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={nombres}
+              onChange={validarLetras}
               maxLength="50"
               className="input-form"
             />
             <input
               type="text"
+              name="apellidos"
               placeholder="Apellido"
-              value={apellido}
-              onChange={(e) => setApellido(e.target.value)}
+              value={apellidos}
+              onChange={validarLetras}
               maxLength="50"
               className="input-form"
             />
             <input
               type="text"
+              name="programaAcademico"
               placeholder="Programa académico"
               value={programaAcademico}
-              onChange={(e) => setProgramaAcademico(e.target.value)}
+              onChange={validarLetras}
               maxLength="50"
               className="input-form"
             />
             <input
               type="text"
+              name="semestre"
               placeholder="Semestre"
               maxLength="50"
+              onChange={validarNumero}
               value={semestre}
-              onChange={(e) => setSemestre(e.target.value)}
               className="input-form"
             />
             <input
               type="text"
+              name="cedula"
               placeholder="Cédula"
+              onChange={validarNumero}
               maxLength="50"
               value={cedula}
-              onChange={(e) => setCedula(e.target.value)}
               className="input-form"
             />
             <input
               type="email"
+              name="correo"
               placeholder="Correo"
+              onChange={validarCorreo}
               maxLength="50"
               value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
               className="input-form"
             />
           </div>

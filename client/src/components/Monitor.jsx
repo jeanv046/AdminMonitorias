@@ -1,28 +1,39 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {eliminarMonitor} from "../utils/monitores"
 
-function Monitor({ monitor, setMonitor, borrarMonitor }) {
-  const { nombre, apellido, programaAcademico, semestre, cedula, correo, id } =
-    monitor;
+function Monitor({ monitor, setMonitor, borrarMonitor,setId }) {
+  const {
+    nombres,
+    apellidos,
+    programaAcademico,
+    semestre,
+    cedula,
+    correo,
+    id,
+
+  } = monitor;
 
   const handleDelete = () => {
     //Validar eliminar
-    const confirmar = window.confirm("Are you sure about that?");
-    if (confirmar) {
-      borrarMonitor(id);
-    }
+      eliminarMonitor(id);
   };
+
+  const obtenerId = (id) =>{
+    setId(id)
+  }
+
 
   return (
     <>
       <div className="list-int w-100 bg-white ">
         <div className="list-grid">
           <p className="p-color">
-            Nombre: <span className="span-color">{nombre}</span>
+            Nombre: <span className="span-color">{nombres}</span>
           </p>
           <p className="p-color">
-            Apellido: <span className="span-color">{apellido}</span>
+            Apellido: <span className="span-color">{apellidos}</span>
           </p>
           <p className="p-color">
             Cédula: <span className="span-color">{cedula}</span>
@@ -37,20 +48,19 @@ function Monitor({ monitor, setMonitor, borrarMonitor }) {
           <p className="p-color">
             Correo: <span className="span-color">{correo}</span>
           </p>
-          
         </div>
-        <div className="icon-form">
-            <FontAwesomeIcon
-              color="#5069DE"
-              onClick={()=>setMonitor(monitor)}
-              icon={faEdit}
-            />
-            <FontAwesomeIcon
-              color="#DE5050"
-              onClick={handleDelete}
-              icon={faTrashAlt}
-            />
-          </div>
+        <div className="icon-form cursor-pointer">
+          <FontAwesomeIcon
+            color="#5069DE"
+            onClick={() => obtenerId(id)}
+            icon={faEdit}
+          />
+          <FontAwesomeIcon
+            color="#DE5050"
+            onClick={handleDelete}
+            icon={faTrashAlt}
+          />
+        </div>
       </div>
     </>
   );
