@@ -3,7 +3,7 @@ React
 
 1. Descargar o clonar el repositorio.
 2. En la carpeta server esta el archivo dbmonitorias.sql, ejecutar en mysql.
-3. encender el servicio Wamp o xampp
+3. encender el servicio wampserver o xampp para activar el server.
 4.ingresar a la carpeta client desde el terminal y ejecutar el comando 
 ### `npm i`
 para instalar todas las dependencias del proyecto seguido de asegurarnos que ya estan instaladas las dependencias ejecutamos
