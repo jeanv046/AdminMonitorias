@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Error from "./Error";
 import { agregarMonitor, editarMonitor } from "../utils/monitores";
 
-const FormMonitor = ({ setMonitores, id, monitores, dataMonitor }) => {
+const FormMonitor = ({ setMonitores, dataMonitor }) => {
   const [monitor, setMonitor] = useState({
     nombres: "",
     apellidos: "",
@@ -20,7 +20,7 @@ const FormMonitor = ({ setMonitores, id, monitores, dataMonitor }) => {
 
   const { nombres, apellidos, programaAcademico, semestre, cedula, correo } =
     monitor;
-    
+
   const validarLetras = (e) => {
     const res = /^[a-zA-Z\b]+$/;
     if (e.target.value === "" || res.test(e.target.value)) {

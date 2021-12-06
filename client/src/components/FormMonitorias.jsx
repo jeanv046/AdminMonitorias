@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import Error from "./Error";
 import { agregarMonitoria, editarMonitoria } from "../utils/monitorias";
 
-const FormMonitorias = ({
-  monitorias,
-  dataMonitoria,
-  setMonitorias,
-  monitores,
-  dataMonitor,
-}) => {
+const FormMonitorias = ({ dataMonitoria, setMonitorias, monitores }) => {
   const [monitoria, setMonitoria] = useState({
     materia: "",
     monitores_id: "",
@@ -27,10 +21,7 @@ const FormMonitorias = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     //validaciones
-    if (materia !== "" && 
-    monitores_id !== "" && 
-    fecha !== "" && 
-    salon !== "") {
+    if (materia !== "" && monitores_id !== "" && fecha !== "" && salon !== "") {
       setError(true);
       if (monitoria.id) {
         editarMonitoria(monitoria, setMonitorias);
@@ -64,7 +55,8 @@ const FormMonitorias = ({
               placeholder="Materia"
               value={materia}
               onChange={(e) =>
-                setMonitoria({ ...monitoria, materia: e.target.value })}
+                setMonitoria({ ...monitoria, materia: e.target.value })
+              }
               maxLength="50"
               className="input-form"
             />
