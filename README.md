@@ -11,4 +11,4 @@ para instalar todas las dependencias del proyecto seguido de asegurarnos que ya 
 en la carpeta client.
 5.luego ingresa a la carpeta server desde el terminal y ejecuta el comando
 ### `npm start`
-si todo sale bien la carpeta client se subira al puerto ####`3000` y la carpeta server al puerto ####`9000`
+si todo sale bien la carpeta client se subira al puerto `3000` y la carpeta server al puerto `9000`
