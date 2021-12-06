@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 const ruta = "http://localhost:9000/monitoria";
 
 export const agregarMonitoria = async (value, setMonitorias) => {
-  console.log(value)
+  console.log(value);
   await axios
     .post(ruta, value)
     .then((resp) => {
@@ -33,9 +33,9 @@ export const agregarMonitoria = async (value, setMonitorias) => {
     });
 };
 
-export const editarMonitoria = async (value, setMonitorias, setMonitoria) => {
+export const editarMonitoria = async (value, setMonitorias) => {
   await axios
-    .post(ruta, value)
+    .patch(ruta, value)
     .then((response) => {
       Swal.fire({
         icon: "success",
@@ -43,7 +43,7 @@ export const editarMonitoria = async (value, setMonitorias, setMonitoria) => {
         showConfirmButton: false,
         timer: 1500,
       });
-      listarMonitorias(setMonitoria);
+      listarMonitorias(setMonitorias);
     })
     .catch((e) => {
       if (e.response.status === 400) {
@@ -58,13 +58,14 @@ export const editarMonitoria = async (value, setMonitorias, setMonitoria) => {
 };
 
 export const eliminarMonitoria = async (id, setMonitorias) => {
-  return await axios.post(ruta, { id: id }).then((response) => {
+  return await axios.delete(ruta + "/" + id).then((response) => {
     Swal.fire({
       icon: "success",
       title: "Elimino Correctamente.",
       showConfirmButton: false,
       timer: 1500,
     });
+    listarMonitorias(setMonitorias);
   });
 };
 

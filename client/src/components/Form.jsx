@@ -10,7 +10,7 @@ import FormMonitor from "./FormMonitor";
 import List from "./List";
 import FormMonitorias from "./FormMonitorias";
 import { listarMonitor, eliminarMonitor } from "../utils/monitores";
-import {listarMonitorias} from "../utils/monitorias";
+import {listarMonitorias, eliminarMonitoria} from "../utils/monitorias";
 
 const Form = ({ title, type }) => {
   const [monitores, setMonitores] = useState([]);
@@ -31,7 +31,9 @@ const Form = ({ title, type }) => {
     eliminarMonitor(id);
   };
   const borrarMonitorias = (id) => {
-    setMonitorias(monitorias.filter((monitoria) => monitoria.id !== id));
+    const nuevaMonitoria = monitorias.filter((monitoria) => monitoria.id !== id)
+    setMonitorias(nuevaMonitoria);
+    eliminarMonitoria(id);
   };
   return (
     <>
@@ -81,7 +83,7 @@ const Form = ({ title, type }) => {
                 dataMonitor={monitor}
                 monitorias={monitorias}
                 setMonitorias={setMonitorias}
-                monitoria={monitoria}
+                dataMonitoria={monitoria}
                 setMonitoria={setMonitoria}
                 monitores={monitores}
               />
@@ -100,6 +102,7 @@ const Form = ({ title, type }) => {
               <List
                 type={"monitorias"}
                 monitorias={monitorias}
+                setMonitorias={setMonitorias}
                 setMonitores={setMonitores}
                 setMonitoria={setMonitoria}
                 borrarMonitorias={borrarMonitorias}

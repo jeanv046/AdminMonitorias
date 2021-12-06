@@ -4,6 +4,7 @@ import { agregarMonitoria, editarMonitoria } from "../utils/monitorias";
 
 const FormMonitorias = ({
   monitorias,
+  dataMonitoria,
   setMonitorias,
   monitores,
   dataMonitor,
@@ -15,40 +16,13 @@ const FormMonitorias = ({
     salon: "",
   });
 
+  useEffect(() => {
+    if (dataMonitoria) setMonitoria(dataMonitoria);
+  }, [dataMonitoria]);
+
   const [error, setError] = useState(false);
 
   const { materia, monitores_id, fecha, salon } = monitoria;
-
-  const validarLetras = (e) => {
-    const res = /^[a-zA-Z\b]+$/;
-    if (e.target.value === "" || res.test(e.target.value)) {
-      setMonitoria({
-        ...monitoria,
-        [e.target.name]: e.target.value,
-      });
-
-      return;
-    }
-  };
-
-  const validarNumero = (e) => {
-    const res = /^[0-9\b]+$/;
-    if (e.target.value === "" || res.test(e.target.value)) {
-      setMonitoria({
-        ...monitoria,
-        [e.target.name]: e.target.value,
-      });
-      return;
-    }
-  };
-
-  const validarCorreo = (e) => {
-    setMonitoria({
-      ...monitoria,
-      [e.target.name]: e.target.value,
-    });
-    return;
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,7 +63,8 @@ const FormMonitorias = ({
               name="materia"
               placeholder="Materia"
               value={materia}
-              onChange={validarLetras}
+              onChange={(e) =>
+                setMonitoria({ ...monitoria, materia: e.target.value })}
               maxLength="50"
               className="input-form"
             />

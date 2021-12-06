@@ -46,8 +46,7 @@ exports.crearMonitoria = (req, res) => {
 };
 
 exports.eliminarMonitoria = (req, res) => {
-  data = req.body;
-  const { id } = data;
+  const  id  = req.params.id;
   if (id) {
     db.query(
       "UPDATE monitorias SET estado=0 WHERE id=?;",

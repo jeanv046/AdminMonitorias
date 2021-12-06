@@ -6,7 +6,6 @@ import { eliminarMonitoria } from "../utils/monitorias";
 
 function Monitoria({ monitoria, setMonitoria, setMonitorias }) {
   const { materia, nombre_monitor, fecha, salon, id } = monitoria;
-
   const handleDelete = () => {
     //Validar eliminar
     if (id) {
@@ -22,7 +21,7 @@ function Monitoria({ monitoria, setMonitoria, setMonitorias }) {
   const edit = () => {
     setMonitoria(monitoria);
   };
-
+  
   return (
     <>
       <div className="list-int w-100 bg-white ">

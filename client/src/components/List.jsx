@@ -1,13 +1,13 @@
 import React from "react";
 import Monitor from "./Monitor";
 import Monitoria from "./Monitoria";
-import { listarMonitor } from "../utils/monitores";
 
 const List = ({
   monitores,
   monitor,
   setMonitor,
   setMonitores,
+  setMonitorias,
   borrarMonitor,
   monitorias,
   setMonitoria,
@@ -41,6 +41,7 @@ const List = ({
                 monitoria={monitoria}
                 monitores={monitores}
                 setMonitoria={setMonitoria}
+                setMonitorias={setMonitorias}
                 setMonitores={setMonitores}
                 borrarMonitorias={borrarMonitorias}
               />
